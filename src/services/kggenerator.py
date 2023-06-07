@@ -6,6 +6,7 @@ import pandas as pd
 import textacy
 import wikipediaapi
 import json
+import os
 
 class KGGenerator:
 
@@ -16,11 +17,10 @@ class KGGenerator:
         page_py = wiki_wiki.page('Mahatma_Gandhi') # James Cameron
         self.text_py = page_py.text
 
-    def draw_kg_for_most_common(self, txt, most_common_index=0):
-        # txt = "Although he was very busy with his work, Peter had had enough of it." \
-        #     + " He and his wife decided they needed a holiday." \
-        #     + " They travelled to Spain because they loved the country very much."
-
+    def create_kg(self, txt, most_common_index=0):
+        if not os.path.exists("data/knowledge_graph.json"):
+            return
+        
         doc = self.nlp(txt)
         # from text to a list of sentences
         lst_docs = [sent for sent in self.nlp(txt).sents]

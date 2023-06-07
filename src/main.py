@@ -1,6 +1,10 @@
 from chatbot import ChatBot
 from services.kggenerator import KGGenerator
 
+kg_gen = KGGenerator()
+# Create Knowledge Graph
+kg_gen.create_kg(kg_gen.text_py)
+
 # Main chatbot loop
 # bot = ChatBot()
 # while True:
@@ -9,6 +13,3 @@ from services.kggenerator import KGGenerator
 #         break
 #     response = bot.generate_response(user_input)
 #     print("ChatBot:", response)
-
-kg_gen = KGGenerator()
-kg_gen.draw_kg_for_most_common(kg_gen.text_py)
