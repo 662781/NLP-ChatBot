@@ -1,9 +1,5 @@
 import spacy
-from matplotlib import pyplot as plt
-import networkx as nx
-import pandas as pd
-import textacy
-import wikipediaapi
+import json
 
 class ChatBot:
 
@@ -38,65 +34,20 @@ class ChatBot:
         else:
             return "I don't know."
         
-    def draw_kg_for_most_common(self, txt, most_common_index=0):
-        txt = "Although he was very busy with his work, Peter had had enough of it." \
-            + " He and his wife decided they needed a holiday." \
-            + " They travelled to Spain because they loved the country very much."
+    def get_json_data(self) -> dict:
+        with open('data/knowledge_graph.json', 'r') as file:
+            knowledge_graph = json.load(file)
 
-        doc = self.nlp(txt)
-        # from text to a list of sentences
-        lst_docs = [sent for sent in self.nlp(txt).sents]
-        print("total sentences:", len(lst_docs))
+        nodes = knowledge_graph["nodes"]
+        links = knowledge_graph["links"]
 
-        ## extract entities and relations
-        dic = {"id": [], "text":[], "entity":[], "relation":[], "object":[]}
+        # Extracting node IDs
+        node_ids = [node["id"] for node in nodes]
 
-        def coref(parts):
-            for part in parts:
-                subj_ref = doc._.coref_chains.resolve(part)
-                if subj_ref:
-                    for x in subj_ref:
-                        yield x
-                else:
-                    yield part
+        # Extracting link information
+        relations = [link["relation"] for link in links]
+        sources = [link["source"] for link in links]
+        targets = [link["target"] for link in links]
 
-        for i, sentence in enumerate(lst_docs):
-            for sent in textacy.extract.subject_verb_object_triples(sentence):
-                subj = " ".join(map(str, coref(sent.subject)))
-                obj  = " ".join(map(str, coref(sent.object)))
-                relation = " ".join(map(str, sent.verb))
-                
-                dic["id"].append(i)
-                dic["text"].append(sentence.text)
-                dic["entity"].append(subj)
-                dic["object"].append(obj)
-                dic["relation"].append(relation)
-        
-        ## create dataframe
-        dtf = pd.DataFrame(dic)
+        return {"node_ids": node_ids, "relations": relations, "sources": sources, "targets": targets}
 
-        ## filter
-        f = dtf["entity"].value_counts().head().index[most_common_index]
-        tmp = dtf[(dtf["entity"]==f) | (dtf["object"]==f)]
-
-
-        ## create small graph
-        G = nx.from_pandas_edgelist(tmp, source="entity", target="object", 
-                                    edge_attr="relation", 
-                                    create_using=nx.DiGraph())
-
-        ## plot
-        plt.figure(figsize=(15,10))
-        pos = nx.spring_layout(G, k=1)
-
-        node_color = ["red" if node==f else "skyblue" for node in G.nodes]
-        edge_color = ["red" if edge[0]==f else "black" for edge in G.edges]
-
-        nx.draw(G, pos=pos, with_labels=True, node_color=node_color, 
-                edge_color=edge_color,
-                node_size=2000, node_shape="o")
-
-        nx.draw_networkx_edge_labels(G, pos=pos, label_pos=0.5, 
-                                edge_labels=nx.get_edge_attributes(G,'relation'),
-                                font_size=12, font_color='black', alpha=0.6)
-        plt.show()

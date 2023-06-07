@@ -1,0 +1,70 @@
+import spacy
+from matplotlib import pyplot as plt
+import networkx as nx
+from networkx.readwrite import json_graph
+import pandas as pd
+import textacy
+import wikipediaapi
+import json
+
+class KGGenerator:
+
+    def __init__(self) -> None:
+        self.nlp = spacy.load('en_core_web_sm')
+        self.nlp.add_pipe('coreferee')
+        wiki_wiki = wikipediaapi.Wikipedia('en')
+        page_py = wiki_wiki.page('Mahatma_Gandhi') # James Cameron
+        self.text_py = page_py.text
+
+    def draw_kg_for_most_common(self, txt, most_common_index=0):
+        # txt = "Although he was very busy with his work, Peter had had enough of it." \
+        #     + " He and his wife decided they needed a holiday." \
+        #     + " They travelled to Spain because they loved the country very much."
+
+        doc = self.nlp(txt)
+        # from text to a list of sentences
+        lst_docs = [sent for sent in self.nlp(txt).sents]
+        # print("total sentences:", len(lst_docs))
+
+        ## extract entities and relations
+        dic = {"id": [], "text":[], "entity":[], "relation":[], "object":[]}
+
+        def coref(parts):
+            for part in parts:
+                subj_ref = doc._.coref_chains.resolve(part)
+                if subj_ref:
+                    for x in subj_ref:
+                        yield x
+                else:
+                    yield part
+
+        for i, sentence in enumerate(lst_docs):
+            for sent in textacy.extract.subject_verb_object_triples(sentence):
+                subj = " ".join(map(str, coref(sent.subject)))
+                obj  = " ".join(map(str, coref(sent.object)))
+                relation = " ".join(map(str, sent.verb))
+                
+                dic["id"].append(i)
+                dic["text"].append(sentence.text)
+                dic["entity"].append(subj)
+                dic["object"].append(obj)
+                dic["relation"].append(relation)
+        
+        ## create dataframe
+        df = pd.DataFrame(dic)
+
+        ## filter
+        f = df["entity"].value_counts().head().index[most_common_index]
+        tmp = df[(df["entity"]==f) | (df["object"]==f)]
+
+        ## create small graph
+        G = nx.from_pandas_edgelist(tmp, source="entity", target="object", 
+                                    edge_attr="relation", 
+                                    create_using=nx.DiGraph())
+        self._graph_to_json(G)
+        
+    def _graph_to_json(self, G):
+        data = json_graph.node_link_data(G)
+        # Save the JSON data to a file
+        with open('data/knowledge_graph.json', 'w') as file:
+            json.dump(data, file, indent=4)
