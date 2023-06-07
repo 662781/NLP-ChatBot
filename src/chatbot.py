@@ -34,20 +34,21 @@ class ChatBot:
         else:
             return "I don't know."
         
-    def get_json_data(self) -> dict:
-        with open('data/knowledge_graph.json', 'r') as file:
-            knowledge_graph = json.load(file)
+    def get_json_data(self, file = 'data/knowledge_graph.json') -> dict:
+        with open(file, 'r') as file:
+            # knowledge_graph = json.load(file)
+            return json.load(file)
 
-        nodes = knowledge_graph["nodes"]
-        links = knowledge_graph["links"]
+        # nodes = knowledge_graph["nodes"]
+        # links = knowledge_graph["links"]
 
-        # Extracting node IDs
-        node_ids = [node["id"] for node in nodes]
+        # # Extracting node IDs
+        # node_ids = [node["id"] for node in nodes]
 
-        # Extracting link information
-        relations = [link["relation"] for link in links]
-        sources = [link["source"] for link in links]
-        targets = [link["target"] for link in links]
+        # # Extracting link information
+        # relations = [link["relation"] for link in links]
+        # sources = [link["source"] for link in links]
+        # targets = [link["target"] for link in links]
 
-        return {"node_ids": node_ids, "relations": relations, "sources": sources, "targets": targets}
+        # return {"node_ids": node_ids, "relations": relations, "sources": sources, "targets": targets}
 

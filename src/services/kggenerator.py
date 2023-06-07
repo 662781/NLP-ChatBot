@@ -18,7 +18,7 @@ class KGGenerator:
         self.text_py = page_py.text
 
     def create_kg(self, txt, most_common_index=0):
-        if not os.path.exists("data/knowledge_graph.json"):
+        if os.path.exists("data/knowledge_graph.json"):
             return
         
         doc = self.nlp(txt)
