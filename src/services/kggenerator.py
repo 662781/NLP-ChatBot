@@ -57,14 +57,14 @@ class KGGenerator:
         f = df["entity"].value_counts().head().index[most_common_index]
         tmp = df[(df["entity"]==f) | (df["object"]==f)]
 
-        # Create small graph
-        G = nx.from_pandas_edgelist(tmp, source="entity", target="object", 
+        # Create small knowledge graph
+        kg = nx.from_pandas_edgelist(tmp, source="entity", target="object", 
                                     edge_attr="relation", 
                                     create_using=nx.DiGraph())
-        self._graph_to_json(G)
+        self._graph_to_json(kg)
         
-    def _graph_to_json(self, G):
-        data = json_graph.node_link_data(G)
+    def _graph_to_json(self, kg):
+        data = json_graph.node_link_data(kg)
         # Save the JSON data to a file
         with open('data/knowledge_graph.json', 'w') as file:
             json.dump(data, file, indent=4)

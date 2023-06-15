@@ -4,12 +4,12 @@ import json
 class ChatBot:
 
     def __init__(self) -> None:
-        self.dummy_knowledge_graph = {
-            "apple": "A fruit that is red or green in color and grows on trees.",
-            "banana": "A fruit that is yellow and grows on trees.",
-            "orange": "A citrus fruit that is typically orange in color.",
-            "watermelon": "A large fruit with green skin and red flesh."
-        }
+        # self.dummy_knowledge_graph = {
+        #     "apple": "A fruit that is red or green in color and grows on trees.",
+        #     "banana": "A fruit that is yellow and grows on trees.",
+        #     "orange": "A citrus fruit that is typically orange in color.",
+        #     "watermelon": "A large fruit with green skin and red flesh."
+        # }
         self.nlp = spacy.load('en_core_web_sm')
 
     def process_input(self, user_input: str):
@@ -36,19 +36,5 @@ class ChatBot:
         
     def get_json_data(self, file = 'data/knowledge_graph.json') -> dict:
         with open(file, 'r') as file:
-            # knowledge_graph = json.load(file)
             return json.load(file)
-
-        # nodes = knowledge_graph["nodes"]
-        # links = knowledge_graph["links"]
-
-        # # Extracting node IDs
-        # node_ids = [node["id"] for node in nodes]
-
-        # # Extracting link information
-        # relations = [link["relation"] for link in links]
-        # sources = [link["source"] for link in links]
-        # targets = [link["target"] for link in links]
-
-        # return {"node_ids": node_ids, "relations": relations, "sources": sources, "targets": targets}
 
