@@ -4,7 +4,7 @@ import json
 class ChatBot:
 
     def __init__(self) -> None:
-        self.knowledge_graph = {
+        self.dummy_knowledge_graph = {
             "apple": "A fruit that is red or green in color and grows on trees.",
             "banana": "A fruit that is yellow and grows on trees.",
             "orange": "A citrus fruit that is typically orange in color.",
@@ -19,8 +19,8 @@ class ChatBot:
     def get_information(self, tokens):
         # Search the knowledge graph based on the keywords
         for token in tokens:
-            if token in self.knowledge_graph:
-                return self.knowledge_graph[token]
+            if token in self.dummy_knowledge_graph:
+                return self.dummy_knowledge_graph[token]
         
         # If no relevant information is found
         return None
