@@ -4,7 +4,7 @@ import pprint
 
 kg_gen = KGGenerator()
 # Create Knowledge Graph
-kg_gen.create_kg(kg_gen.text_py)
+kg_gen.create_kg()
 
 # Main chatbot loop
 bot = ChatBot()

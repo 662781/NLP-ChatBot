@@ -14,19 +14,19 @@ class KGGenerator:
         self.nlp = spacy.load('en_core_web_sm')
         self.nlp.add_pipe('coreferee')
         wiki_wiki = wikipediaapi.Wikipedia('en')
-        page_py = wiki_wiki.page('Mahatma_Gandhi') # James Cameron
-        self.text_py = page_py.text
+        page_py = wiki_wiki.page('Mahatma_Gandhi')
+        self.txt = page_py.text
 
-    def create_kg(self, txt, most_common_index=0):
+    def create_kg(self, most_common_index=0):
         if os.path.exists("data/knowledge_graph.json"):
             return
         
-        doc = self.nlp(txt)
-        # from text to a list of sentences
-        lst_docs = [sent for sent in self.nlp(txt).sents]
+        doc = self.nlp(self.txt)
+        # From text to a list of sentences
+        lst_docs = [sent for sent in self.nlp(self.txt).sents]
         # print("total sentences:", len(lst_docs))
 
-        ## extract entities and relations
+        # Extract entities and relations
         dic = {"id": [], "text":[], "entity":[], "relation":[], "object":[]}
 
         def coref(parts):
@@ -50,14 +50,14 @@ class KGGenerator:
                 dic["object"].append(obj)
                 dic["relation"].append(relation)
         
-        ## create dataframe
+        # Create dataframe
         df = pd.DataFrame(dic)
 
-        ## filter
+        # Filter
         f = df["entity"].value_counts().head().index[most_common_index]
         tmp = df[(df["entity"]==f) | (df["object"]==f)]
 
-        ## create small graph
+        # Create small graph
         G = nx.from_pandas_edgelist(tmp, source="entity", target="object", 
                                     edge_attr="relation", 
                                     create_using=nx.DiGraph())
