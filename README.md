@@ -7,8 +7,10 @@ Made in Python 3.10.10
 
 ## Explanation
 The chatbot works by:
-- Getting data from Wikipedia using the API (the Ghandi article)
-- Creating a knowledge graph (kg) from that data
-- Reading the user input (question)
-- Comparing the keywords from the user input to the knowledge graph
-- Generating a full sentence response, based on the found relations in the knowledge graph
+- Getting data from Wikipedia using the API.
+- Creating a knowledge graph (kg) from that data.
+- Reading the user's question about the data (input).
+- Comparing the question to the sentences build from the relations, sources and targets of the links in the knowledge graph.
+- Generating a full sentence response (output).
+  - Gets the answer to the question if the question matches any sentence from the sentences dictionary (with fuzzy matching). `{sentence: answer, }`
+  - Alternatively responds with a negative response (e.g. "I don't know."), when no match is found or the similarity is too low.
