@@ -68,3 +68,8 @@ class KGGenerator:
         # Save the JSON data to a file
         with open('data/knowledge_graph.json', 'w') as file:
             json.dump(data, file, indent=4)
+
+    @staticmethod
+    def get_kg_from_json(file = 'data/knowledge_graph.json') -> dict:
+        with open(file, 'r') as file:
+            return json.load(file)
