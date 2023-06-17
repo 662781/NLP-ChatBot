@@ -24,7 +24,6 @@ class KGGenerator:
         doc = self.nlp(self.txt)
         # From text to a list of sentences
         lst_docs = [sent for sent in self.nlp(self.txt).sents]
-        # print("total sentences:", len(lst_docs))
 
         # Extract entities and relations
         dic = {"id": [], "text":[], "entity":[], "relation":[], "object":[]}

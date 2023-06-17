@@ -1,8 +1,6 @@
 import spacy
-import json
 import random
 from services.fuzzy_matcher import FuzzyMatcher
-from services.kggenerator import KGGenerator
 
 class ChatBot:
 
