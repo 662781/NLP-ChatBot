@@ -13,5 +13,4 @@ while True:
     if user_input.lower() == "see ya":
         print("ChatBot: Bye!")
         break
-    response = bot.generate_response(user_input)
-    print("ChatBot:", response)
+    print("ChatBot:", bot.respond(user_input))

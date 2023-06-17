@@ -18,7 +18,7 @@ class ChatBot:
     def process_input(self, user_input: str):
         return self.fuzzmatch.find_answer(user_input)
     
-    def generate_response(self, user_input):
+    def respond(self, user_input):
         information = self.process_input(user_input)
 
         if information:
