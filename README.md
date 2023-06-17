@@ -12,5 +12,5 @@ The chatbot works by:
 - Reading the user's question about the data (input).
 - Comparing the question to the sentences build from the relations, sources and targets of the links in the knowledge graph.
 - Generating a full sentence response (output).
-  - Gets the answer to the question if the question matches any sentence from the sentences dictionary (with fuzzy matching). `{sentence: answer, }`
+  - Gets the answer to the question if the question matches any sentence from the sentences dictionary. `{sentence: answer, }` This uses fuzzy matching with a minimum similarity value of 80. 
   - Alternatively responds with a negative response (e.g. "I don't know."), when no match is found or the similarity is too low.
