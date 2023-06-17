@@ -17,7 +17,7 @@ class FuzzyMatcher:
             "Why did Gandhi urges Indians?": "Gandhi urged Indians to unite, resist British oppression, and strive for independence through nonviolent means.",
             "What areas did Gandhi visit?": "Gandhi visited various regions in India and other parts of the world to understand the issues faced by different communities, mobilize support for his causes, and spread his message of nonviolence and social justice.",
             "Why did Gandhi undertake hunger strikes?": "Gandhi undertook hunger strikes as a form of nonviolent protest to draw attention to various issues and to pressure the British government and Indian leaders to address those concerns.",
-            "What educationhad Gandhi?": "Gandhi received his education in law from the Inner Temple, London, and studied various subjects including philosophy, history, and literature.",
+            "What education had Gandhi?": "Gandhi received his education in law from the Inner Temple, London, and studied various subjects including philosophy, history, and literature.",
             "What was Gandhi's sister described as?": "Gandhi's sister was described as a compassionate and supportive family member who played an important role in his life.",
             "What was Gandhi's mother's influence?": "Gandhi's mother had a strong influence on his upbringing, instilling in him moral values, religious teachings, and a sense of social responsibility.",
             "When did Gandhi enter school?": "Gandhi entered school at a young age and received his early education in Porbandar and later in Rajkot, where he developed a keen interest in various subjects and exhibited his leadership qualities.",

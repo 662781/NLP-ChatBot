@@ -24,4 +24,7 @@ class ChatBot:
         else:
             # Return random negative response 
             return random.choice(self.negative_responses)
+        
+    def welcome_msg(self):
+        print("Hi! Ask me anything about Gandhi.\nType 'see ya' to exit.\n")
 

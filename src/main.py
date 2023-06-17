@@ -6,7 +6,7 @@ kg_gen = KGGenerator()
 kg_gen.create_kg()
 
 bot = ChatBot()
-
+bot.welcome_msg()
 # Instatiate chatbot loop
 while True:
     user_input = input("User: ")
